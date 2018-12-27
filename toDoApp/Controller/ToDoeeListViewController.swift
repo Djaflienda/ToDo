@@ -13,34 +13,53 @@ class ToDoeeListViewController: UITableViewController {
     @IBOutlet weak var deleteRowsButton: UIBarButtonItem!
     
     var toDoees = ToDoeesModel()
-    
-    //DO I REALLY NEED THIS INIT? REMOVE IT LATER!!!
-//    required init?(coder aDecoder: NSCoder) {
-//        super.init(coder: aDecoder)
-//
-//        print("Data file path is \(dataFilePath())")
-//        print("Documents folder is \(documentsDirectory())")
-//    }
+    var categoryTitle: String!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "My ToDoee"
+        title = categoryTitle
         
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
         }
-        navigationItem.leftBarButtonItem = editButtonItem
+        navigationItem.rightBarButtonItems?.append(editButtonItem)
         tableView.allowsMultipleSelectionDuringEditing = true
         
-//        toDoees.fillArrayWithDefaultData()
         loadToDoeeItems()
     }
     
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: true)
         tableView.setEditing(tableView.isEditing, animated: true)
-        deleteRowsButton.isEnabled = !deleteRowsButton.isEnabled
+        
+        let deleteBarButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteRows))
+        deleteBarButton.tintColor = UIColor.red
+    
+        if editing {
+            self.navigationItem.rightBarButtonItems?.insert(deleteBarButton, at: 1)
+            //I dont like this line - should change
+            self.navigationItem.rightBarButtonItems?[0].isEnabled = false
+        } else {
+            self.navigationItem.rightBarButtonItems?.remove(at: 1)
+            //The same here
+            self.navigationItem.rightBarButtonItems?[0].isEnabled = true
+        }
+    }
+    
+    @objc
+    func deleteRows() {
+        if let selectedRows = tableView.indexPathsForSelectedRows {
+            var items = [ToDoee]()
+            for indexPath in selectedRows {
+                items.append(toDoees.toDoeesArray[indexPath.row])
+            }
+            toDoees.remove(items: items)
+            tableView.beginUpdates()
+            tableView.deleteRows(at: selectedRows, with: .automatic)
+            tableView.endUpdates()
+        }
+        toDoees.saveAtFile(name: categoryTitle, element: toDoees.toDoeesArray)
     }
     
     //figure out how to perform transition without Storyboard segue
@@ -55,50 +74,20 @@ class ToDoeeListViewController: UITableViewController {
         }
     }
 
-    @IBAction func createNewToDoeeButtonPressed(_ sender: UIBarButtonItem) {
+    @IBAction
+    func createNewToDoeeButtonPressed(_ sender: UIBarButtonItem) {
         let detailedToDoeeViewController = self.storyboard?.instantiateViewController(withIdentifier: "ToDoeeDetailed") as! ItemDetailViewController
         detailedToDoeeViewController.delegate = self
         self.navigationController?.pushViewController(detailedToDoeeViewController, animated: true)
     }
     
-    @IBAction func deleteRows(_ sender: UIBarButtonItem) {
-        if let selectedRows = tableView.indexPathsForSelectedRows {
-            var items = [ToDoee]()
-            for indexPath in selectedRows {
-                items.append(toDoees.toDoeesArray[indexPath.row])
-            }
-            toDoees.remove(items: items)
-            tableView.beginUpdates()
-            tableView.deleteRows(at: selectedRows, with: .automatic)
-            tableView.endUpdates()
-        }
-        saveToDoeeItems()
-    }
-    
-    //Saving data using FileManager
-    func documentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        return paths[0]
-    }
-    
-    func dataFilePath() -> URL {
-        return documentsDirectory().appendingPathComponent("ToDoeeList.plist")
-    }
-    
-    func saveToDoeeItems() {
-        let encoder = PropertyListEncoder()
-        
-        do {
-            let data = try encoder.encode(toDoees.toDoeesArray)
-            
-            try data.write(to: dataFilePath(), options: .atomic)
-        } catch {
-            print("Error encoding otem array")
-        }
-    }
-    
     func loadToDoeeItems() {
-        if let data = try? Data(contentsOf: dataFilePath()) {
+        //HOW TO INCAPSULATE IT INSIDE MODEL??
+//        guard let urlToLoad = dataFilePath() else {return}
+        guard let categoryTitle = categoryTitle else {return}
+        let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("\(categoryTitle).plist")
+        
+        if let data = try? Data(contentsOf: path) {
             let decoder = PropertyListDecoder()
             
             do {
@@ -113,7 +102,6 @@ class ToDoeeListViewController: UITableViewController {
 // MARK: TableViewDataSource and Delegate Methods
 extension ToDoeeListViewController {
     
-    //next TWO methods configure a tableView
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return toDoees.toDoeesArray.count
     }
@@ -137,14 +125,14 @@ extension ToDoeeListViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         toDoees.toDoeesArray[indexPath.row].toggleState()
         tableView.reloadData()
-        saveToDoeeItems()
+        toDoees.saveAtFile(name: categoryTitle, element: toDoees.toDoeesArray)
     }
     
     //provide an ability to 'swipe to delete'
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         toDoees.toDoeesArray.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .automatic)
-        saveToDoeeItems()
+        toDoees.saveAtFile(name: categoryTitle, element: toDoees.toDoeesArray)
     }
     
     //during editingMode provide an ability to move rows. A 'move' indicator is also shown on the right hand side
@@ -168,13 +156,13 @@ extension ToDoeeListViewController: ItemDetailViewControllerDelegate {
         toDoees.toDoeesArray[index].index = nil
         let indexPath = IndexPath(row: index, section: 0)
         self.tableView.insertRows(at: [indexPath], with: .automatic)
-        saveToDoeeItems()
+        toDoees.saveAtFile(name: categoryTitle, element: toDoees.toDoeesArray)
     }
     
     func addNewToDoee(_: ItemDetailViewController, editedItem: ToDoee) {
         toDoees.toDoeesArray[editedItem.index!] = editedItem
         toDoees.toDoeesArray[editedItem.index!].index = nil
         tableView.reloadData()
-        saveToDoeeItems()
+        toDoees.saveAtFile(name: categoryTitle, element: toDoees.toDoeesArray)
     }
 }

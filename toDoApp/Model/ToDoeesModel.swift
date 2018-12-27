@@ -8,26 +8,10 @@
 
 import Foundation
 
-enum SortingOption {
-    //Add some more sort options
-    case alphabeticSort
-}
-
+//SHOULD I USE SINGLETON HERE???
 struct ToDoeesModel {
     
-    var toDoeesArray: [ToDoee] = []
-    
-//    mutating func fillArrayWithDefaultData() {
-//        for i in 0...100 {
-//            let todoee = ToDoee(text: "toDoee #\(i)", description: "No description", checked: true, index: nil)
-//            toDoeesArray.insert(todoee, at: 0)
-//        }
-//    }
-    
-    mutating func sortToDoeedArray( _ : SortingOption) {
-        //sorting algorithms implementation will be here
-        //all algorithms should be in their own files - study study algorithms
-    }
+    var toDoeesArray = [ToDoee]()
     
     mutating func move(item: ToDoee, to index: Int) {
         guard let currentIndex = toDoeesArray.firstIndex(of: item) else {return}
@@ -43,4 +27,19 @@ struct ToDoeesModel {
         }
     }
     
+    func saveAtFile(name: String, element: [ToDoee]) {
+        
+        let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("\(name).plist")
+        //BUT WHAT IF I ALREADY HAVE A FILE WITH SUCH NAME???
+        //FIX
+        
+        let encoder = PropertyListEncoder()
+        do {
+            let data = try encoder.encode(element)
+            try data.write(to: path, options: .atomic)
+        } catch {
+            print("Error encoding otem array")
+        }
+    }
+
 }

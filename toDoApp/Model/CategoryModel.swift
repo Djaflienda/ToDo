@@ -8,7 +8,8 @@
 
 import Foundation
 
-struct Category {
+struct Category: Equatable, Codable {
     var title: String
+    
     
 }
