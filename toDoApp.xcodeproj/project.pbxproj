@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA22059D21D95441006FEC63 /* CategoryDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA22059C21D95441006FEC63 /* CategoryDetailTableViewController.swift */; };
+		FA22059F21D955A8006FEC63 /* tasks -to-do.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA22059E21D955A8006FEC63 /* tasks -to-do.swift */; };
 		FA2D978721C8EE5D00E7F385 /* ToDoeeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2D978621C8EE5D00E7F385 /* ToDoeeTableViewCell.swift */; };
 		FA3F427A21CBDF7700D18620 /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3F427921CBDF7700D18620 /* CategoriesViewController.swift */; };
-		FA3F427C21CBE02600D18620 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3F427B21CBE02600D18620 /* CategoryModel.swift */; };
+		FA3F427C21CBE02600D18620 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3F427B21CBE02600D18620 /* Category.swift */; };
 		FA68737021D4CEDD00F77CBA /* CategoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA68736F21D4CEDD00F77CBA /* CategoriesModel.swift */; };
 		FA6E51D021BE37F9008C3A87 /* ToDoeesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6E51CF21BE37F9008C3A87 /* ToDoeesModel.swift */; };
 		FAE1C6F321BC57D90068647B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE1C6F221BC57D90068647B /* AppDelegate.swift */; };
@@ -22,9 +24,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FA22059C21D95441006FEC63 /* CategoryDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailTableViewController.swift; sourceTree = "<group>"; };
+		FA22059E21D955A8006FEC63 /* tasks -to-do.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "tasks -to-do.swift"; sourceTree = "<group>"; };
 		FA2D978621C8EE5D00E7F385 /* ToDoeeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoeeTableViewCell.swift; sourceTree = "<group>"; };
 		FA3F427921CBDF7700D18620 /* CategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
-		FA3F427B21CBE02600D18620 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
+		FA3F427B21CBE02600D18620 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		FA68736F21D4CEDD00F77CBA /* CategoriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesModel.swift; sourceTree = "<group>"; };
 		FA6E51CF21BE37F9008C3A87 /* ToDoeesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoeesModel.swift; sourceTree = "<group>"; };
 		FAE1C6EF21BC57D90068647B /* toDoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = toDoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,7 +59,7 @@
 				FA6E51CF21BE37F9008C3A87 /* ToDoeesModel.swift */,
 				FAE1C70421BC58990068647B /* ToDoee.swift */,
 				FA68736F21D4CEDD00F77CBA /* CategoriesModel.swift */,
-				FA3F427B21CBE02600D18620 /* CategoryModel.swift */,
+				FA3F427B21CBE02600D18620 /* Category.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -76,6 +80,7 @@
 				FAE1C6F421BC57D90068647B /* ToDoeeListViewController.swift */,
 				FAE1C70621BD4B9E0068647B /* ItemDetailViewController.swift */,
 				FA3F427921CBDF7700D18620 /* CategoriesViewController.swift */,
+				FA22059C21D95441006FEC63 /* CategoryDetailTableViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -99,6 +104,7 @@
 		FAE1C6F121BC57D90068647B /* toDoApp */ = {
 			isa = PBXGroup;
 			children = (
+				FA22059E21D955A8006FEC63 /* tasks -to-do.swift */,
 				FAE1C6F221BC57D90068647B /* AppDelegate.swift */,
 				FA3F427521CAD2DF00D18620 /* Model */,
 				FA3F427621CAD2E600D18620 /* View */,
@@ -184,9 +190,11 @@
 				FAE1C70521BC58990068647B /* ToDoee.swift in Sources */,
 				FA6E51D021BE37F9008C3A87 /* ToDoeesModel.swift in Sources */,
 				FA68737021D4CEDD00F77CBA /* CategoriesModel.swift in Sources */,
+				FA22059D21D95441006FEC63 /* CategoryDetailTableViewController.swift in Sources */,
 				FA2D978721C8EE5D00E7F385 /* ToDoeeTableViewCell.swift in Sources */,
+				FA22059F21D955A8006FEC63 /* tasks -to-do.swift in Sources */,
 				FAE1C6F321BC57D90068647B /* AppDelegate.swift in Sources */,
-				FA3F427C21CBE02600D18620 /* CategoryModel.swift in Sources */,
+				FA3F427C21CBE02600D18620 /* Category.swift in Sources */,
 				FA3F427A21CBDF7700D18620 /* CategoriesViewController.swift in Sources */,
 				FAE1C70721BD4B9E0068647B /* ItemDetailViewController.swift in Sources */,
 			);

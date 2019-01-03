@@ -9,7 +9,13 @@
 import Foundation
 
 struct Category: Equatable, Codable {
+    
     var title: String
+    
+    
+    
+    
+//    var toDoeeItems: [ToDoee]
     
     
 }

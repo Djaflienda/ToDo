@@ -11,6 +11,7 @@ import Foundation
 struct CategoriesList {
     
     var categoriesArray: [Category] = []
+    var totalToDoeeAmount: Int = 0
     
     mutating func move(item: Category, to index: Int) {
         guard let currentIndex = categoriesArray.firstIndex(of: item) else {return}

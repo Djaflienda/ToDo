@@ -14,7 +14,7 @@ class CategoriesViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         title = "List of Categories"
         
         if #available(iOS 11.0, *) {
@@ -26,14 +26,16 @@ class CategoriesViewController: UITableViewController {
         loadToDoeeItems()
     }
     
+    //Apple Documentation tells not to use this method with tableView commit editingStyle
+    //Do not know how to fix it right now
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: true)
         tableView.setEditing(tableView.isEditing, animated: true)
         
-        let deleteBarButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteRows))
-        deleteBarButton.tintColor = UIColor.red
-        
         if editing {
+            let deleteBarButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteRows))
+            deleteBarButton.tintColor = UIColor.red
+            
             self.navigationItem.rightBarButtonItems?.insert(deleteBarButton, at: 1)
             //I dont like this line - should change
             self.navigationItem.rightBarButtonItems?[0].isEnabled = false
@@ -88,7 +90,6 @@ class CategoriesViewController: UITableViewController {
             let indexPath = IndexPath(row: 0, section: 0)
             self.tableView.insertRows(at: [indexPath], with: .automatic)
             print(self.categories.categoriesArray.count)
-//            self.saveToDoeeItems()
             self.categories.saveAtFile(element: self.categories.categoriesArray)
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
@@ -110,6 +111,7 @@ extension CategoriesViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath)
 
         cell.textLabel?.text = categories.categoriesArray[indexPath.row].title
+        cell.detailTextLabel?.text = "\(categories.totalToDoeeAmount) ToDoees in this list"
 
         return cell
     }
@@ -120,6 +122,7 @@ extension CategoriesViewController {
         }
         let listViewController = storyboard?.instantiateViewController(withIdentifier: "ToDoeeList") as! ToDoeeListViewController
         listViewController.categoryTitle = categories.categoriesArray[indexPath.row].title
+        listViewController.delegate = self
         self.navigationController?.pushViewController(listViewController, animated: true)
     }
     
@@ -134,4 +137,23 @@ extension CategoriesViewController {
         categories.move(item: categories.categoriesArray[sourceIndexPath.row], to: destinationIndexPath.row)
         tableView.reloadData()
     }
+    
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        let categoryDetailedViewController = storyboard?.instantiateViewController(withIdentifier: "CategoryDetailViewController") as! CategoryDetailTableViewController
+        navigationController?.pushViewController(categoryDetailedViewController, animated: true)
+    }
 }
+
+extension CategoriesViewController: ToDoeeListViewControllerDelegate {
+    func increaseToDoeeAmountByOne(_: ToDoeeListViewController) {
+        categories.totalToDoeeAmount += 1
+        tableView.reloadData()
+    }
+    
+    func decreaseToDoeeAmountByOne(_: ToDoeeListViewController) {
+        categories.totalToDoeeAmount -= 1
+        tableView.reloadData()
+    }
+}
+
+

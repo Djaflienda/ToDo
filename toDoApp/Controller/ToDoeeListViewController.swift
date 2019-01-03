@@ -8,13 +8,20 @@
 
 import UIKit
 
+protocol ToDoeeListViewControllerDelegate: class {
+    func increaseToDoeeAmountByOne(_: ToDoeeListViewController)
+    func decreaseToDoeeAmountByOne(_: ToDoeeListViewController)
+}
+
 class ToDoeeListViewController: UITableViewController {
     
-    @IBOutlet weak var deleteRowsButton: UIBarButtonItem!
+//    @IBOutlet weak var deleteRowsButton: UIBarButtonItem!
     
     var toDoees = ToDoeesModel()
     var categoryTitle: String!
-
+    
+    weak var delegate: ToDoeeListViewControllerDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,14 +36,16 @@ class ToDoeeListViewController: UITableViewController {
         loadToDoeeItems()
     }
     
+    //Apple Documentation tells not to use this method with tableView commit editingStyle
+    //Do not know how to fix it right now
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: true)
         tableView.setEditing(tableView.isEditing, animated: true)
         
-        let deleteBarButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteRows))
-        deleteBarButton.tintColor = UIColor.red
-    
         if editing {
+            let deleteBarButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteRows))
+            deleteBarButton.tintColor = UIColor.red
+            
             self.navigationItem.rightBarButtonItems?.insert(deleteBarButton, at: 1)
             //I dont like this line - should change
             self.navigationItem.rightBarButtonItems?[0].isEnabled = false
@@ -59,19 +68,11 @@ class ToDoeeListViewController: UITableViewController {
             tableView.deleteRows(at: selectedRows, with: .automatic)
             tableView.endUpdates()
         }
+        
+        //HERE DELETE DELEGATE
+        delegate?.decreaseToDoeeAmountByOne(self)
+        
         toDoees.saveAtFile(name: categoryTitle, element: toDoees.toDoeesArray)
-    }
-    
-    //figure out how to perform transition without Storyboard segue
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "disclosureSegue" {
-            let detailedToDoeeViewController = segue.destination as! ItemDetailViewController
-            detailedToDoeeViewController.delegate = self
-            if let indexPath = tableView.indexPath(for: sender as! UITableViewCell) {
-                detailedToDoeeViewController.editingItem = toDoees.toDoeesArray[indexPath.row]
-                detailedToDoeeViewController.editingItem?.index = indexPath.row
-            }
-        }
     }
 
     @IBAction
@@ -140,6 +141,14 @@ extension ToDoeeListViewController {
         toDoees.move(item: toDoees.toDoeesArray[sourceIndexPath.row], to: destinationIndexPath.row)
         tableView.reloadData()
     }
+    
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        let detailedToDoeeViewController = storyboard?.instantiateViewController(withIdentifier: "ToDoeeDetailed") as! ItemDetailViewController
+        detailedToDoeeViewController.delegate = self
+        detailedToDoeeViewController.editingItem = toDoees.toDoeesArray[indexPath.row]
+        detailedToDoeeViewController.editingItem?.index = indexPath.row
+        navigationController?.pushViewController(detailedToDoeeViewController, animated: true)
+    }
 }
 
 // MARK: ItemDetailViewControllerDelegate Methods
@@ -156,6 +165,7 @@ extension ToDoeeListViewController: ItemDetailViewControllerDelegate {
         toDoees.toDoeesArray[index].index = nil
         let indexPath = IndexPath(row: index, section: 0)
         self.tableView.insertRows(at: [indexPath], with: .automatic)
+        delegate?.increaseToDoeeAmountByOne(self)
         toDoees.saveAtFile(name: categoryTitle, element: toDoees.toDoeesArray)
     }
     
