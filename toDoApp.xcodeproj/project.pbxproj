@@ -14,7 +14,6 @@
 		FA3F427A21CBDF7700D18620 /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3F427921CBDF7700D18620 /* CategoriesViewController.swift */; };
 		FA3F427C21CBE02600D18620 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3F427B21CBE02600D18620 /* Category.swift */; };
 		FA68737021D4CEDD00F77CBA /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA68736F21D4CEDD00F77CBA /* DataModel.swift */; };
-		FA6E51D021BE37F9008C3A87 /* ToDoeesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6E51CF21BE37F9008C3A87 /* ToDoeesModel.swift */; };
 		FA6F7E3C21DFAC0B00053E98 /* TitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6F7E3A21DFAC0B00053E98 /* TitleTableViewCell.swift */; };
 		FA6F7E3D21DFAC0B00053E98 /* TitleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA6F7E3B21DFAC0B00053E98 /* TitleTableViewCell.xib */; };
 		FA6F7E4121DFAE7F00053E98 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6F7E3F21DFAE7F00053E98 /* NotificationTableViewCell.swift */; };
@@ -35,7 +34,6 @@
 		FA3F427921CBDF7700D18620 /* CategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
 		FA3F427B21CBE02600D18620 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		FA68736F21D4CEDD00F77CBA /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
-		FA6E51CF21BE37F9008C3A87 /* ToDoeesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoeesModel.swift; sourceTree = "<group>"; };
 		FA6F7E3A21DFAC0B00053E98 /* TitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTableViewCell.swift; sourceTree = "<group>"; };
 		FA6F7E3B21DFAC0B00053E98 /* TitleTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TitleTableViewCell.xib; sourceTree = "<group>"; };
 		FA6F7E3F21DFAE7F00053E98 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
@@ -67,7 +65,6 @@
 				FA68736F21D4CEDD00F77CBA /* DataModel.swift */,
 				FA3F427B21CBE02600D18620 /* Category.swift */,
 				FAE1C70421BC58990068647B /* ToDoee.swift */,
-				FA6E51CF21BE37F9008C3A87 /* ToDoeesModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -219,7 +216,6 @@
 				FAE1C6F521BC57D90068647B /* ToDoeeListViewController.swift in Sources */,
 				FAE1C70521BC58990068647B /* ToDoee.swift in Sources */,
 				FA6F7E4121DFAE7F00053E98 /* NotificationTableViewCell.swift in Sources */,
-				FA6E51D021BE37F9008C3A87 /* ToDoeesModel.swift in Sources */,
 				FA6F7E3C21DFAC0B00053E98 /* TitleTableViewCell.swift in Sources */,
 				FA68737021D4CEDD00F77CBA /* DataModel.swift in Sources */,
 				FA2D978721C8EE5D00E7F385 /* ToDoeeTableViewCell.swift in Sources */,

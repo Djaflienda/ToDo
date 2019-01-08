@@ -27,6 +27,15 @@ class CategoriesViewController: UITableViewController {
         tableView.allowsMultipleSelectionDuringEditing = true        
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        navigationController?.delegate = self
+        let index = dataModel.indexOfSelectedToDoeeList
+        print(index)
+        if index >= 0 && index < dataModel.listOfCategories.count {
+            configureSegueForRowAt(index: index)
+        }
+    }
+    
     //Apple Documentation tells not to use this method with tableView commit editingStyle
     //Do not know how to fix it right now
     override func setEditing(_ editing: Bool, animated: Bool) {
@@ -98,10 +107,15 @@ extension CategoriesViewController {
         if isEditing {
             return
         }
+        dataModel.indexOfSelectedToDoeeList = indexPath.row
+        configureSegueForRowAt(index: indexPath.row)
+    }
+    
+    func configureSegueForRowAt(index: Int) {
         let listViewController = storyboard?.instantiateViewController(withIdentifier: "ToDoeeList") as! ToDoeeListViewController
         listViewController.dataModel = dataModel
-        listViewController.categoryTitle = dataModel.listOfCategories[indexPath.row].title
-        listViewController.categoryIndex = indexPath.row
+        listViewController.categoryTitle = dataModel.listOfCategories[index].title
+        listViewController.categoryIndex = index
         listViewController.delegate = self
         self.navigationController?.pushViewController(listViewController, animated: true)
     }
@@ -136,6 +150,14 @@ extension CategoriesViewController: DetailedCategoryViewControllerDelegate {
 extension CategoriesViewController: ToDoeeListViewControllerDelegate {
     func updateCategoryViewControllerData(_: ToDoeeListViewController) {
         self.tableView.reloadData()
+    }
+}
+
+extension CategoriesViewController: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        if viewController === self {
+            dataModel.indexOfSelectedToDoeeList = -1
+        }
     }
 }
 
