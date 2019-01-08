@@ -10,10 +10,13 @@ import UIKit
 
 class CategoriesViewController: UITableViewController {
     
-    var categories = CategoriesList()
+    var dataModel: DataModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //to have access to Document folder
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("Categories.plist"))
         
         title = "List of Categories"
         
@@ -21,9 +24,7 @@ class CategoriesViewController: UITableViewController {
             navigationController?.navigationBar.prefersLargeTitles = true
         }
         navigationItem.rightBarButtonItems?.append(editButtonItem)
-        tableView.allowsMultipleSelectionDuringEditing = true
-        
-        loadToDoeeItems()
+        tableView.allowsMultipleSelectionDuringEditing = true        
     }
     
     //Apple Documentation tells not to use this method with tableView commit editingStyle
@@ -48,70 +49,47 @@ class CategoriesViewController: UITableViewController {
     
     @objc
     func deleteRows() {
+        //instead of using index in ToDoee instance I can use tableView.indexPathsForSelectedRow
+        //SOLVE
         if let selectedRows = tableView.indexPathsForSelectedRows {
             var items = [Category]()
             for indexPath in selectedRows {
-                items.append(categories.categoriesArray[indexPath.row])
+                items.append(dataModel.listOfCategories[indexPath.row])
             }
-            categories.remove(items: items)
+            dataModel.remove(items: items)
             tableView.beginUpdates()
             tableView.deleteRows(at: selectedRows, with: .automatic)
             tableView.endUpdates()
         }
-        categories.saveAtFile(element: categories.categoriesArray)
-    }
-    
-    func loadToDoeeItems() {
-        let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("Categories.plist")
-        if let data = try? Data(contentsOf: path) {
-            let decoder = PropertyListDecoder()
-            do {
-                categories.categoriesArray = try decoder.decode([Category].self, from: data)
-            } catch {
-                print("Error decoding item array")
-            }
-        }
     }
     
     @IBAction func createNewCategoryButtonPressed(_ sender: UIBarButtonItem) {
-        
-        //assign random generated name for any categories that user created
-        //so user can create a categories with same titles
-        //FIX
-        
-        let alert = UIAlertController(title: "Create new category", message: "Enter new category title", preferredStyle: .alert)
-        alert.addTextField { (textField) in
-            textField.placeholder = "Enter new category title"
-        }
-        let action = UIAlertAction(title: "Create", style: .cancel, handler: { (action) in
-            guard let textFields = alert.textFields, let text = textFields[0].text, text != "" else {return}
-            let newCategory = Category.init(title: text)
-            self.categories.categoriesArray.insert(newCategory, at: 0)
-            let indexPath = IndexPath(row: 0, section: 0)
-            self.tableView.insertRows(at: [indexPath], with: .automatic)
-            print(self.categories.categoriesArray.count)
-            self.categories.saveAtFile(element: self.categories.categoriesArray)
-        })
-        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
-        
-        alert.addAction(action)
-        alert.addAction(cancelAction)
-        self.present(alert, animated: true, completion: nil)
+        let destinationViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailedCategoryViewController") as! DetailedCategoryViewController
+        destinationViewController.delegate = self
+        self.navigationController?.pushViewController(destinationViewController, animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        let destinationViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailedCategoryViewController") as! DetailedCategoryViewController
+        destinationViewController.delegate = self
+        destinationViewController.editingItemIndex = indexPath.row
+        destinationViewController.editingItem = dataModel.listOfCategories[indexPath.row]
+        self.navigationController?.pushViewController(destinationViewController, animated: true)
     }
 }
 
-// MARK: - tableViewDataSource Methods
+// MARK: - tableView Data Source Methods
 extension CategoriesViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categories.categoriesArray.count
+        return dataModel.listOfCategories.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath)
 
-        cell.textLabel?.text = categories.categoriesArray[indexPath.row].title
-        cell.detailTextLabel?.text = "\(categories.totalToDoeeAmount) ToDoees in this list"
+        cell.textLabel?.text = dataModel.listOfCategories[indexPath.row].title
+        cell.detailTextLabel?.text = "\(dataModel.listOfCategories[indexPath.row].toDoeeItems.count) ToDoees in this list"
 
         return cell
     }
@@ -121,38 +99,43 @@ extension CategoriesViewController {
             return
         }
         let listViewController = storyboard?.instantiateViewController(withIdentifier: "ToDoeeList") as! ToDoeeListViewController
-        listViewController.categoryTitle = categories.categoriesArray[indexPath.row].title
+        listViewController.dataModel = dataModel
+        listViewController.categoryTitle = dataModel.listOfCategories[indexPath.row].title
+        listViewController.categoryIndex = indexPath.row
         listViewController.delegate = self
         self.navigationController?.pushViewController(listViewController, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        categories.deleteFileWith(name: categories.categoriesArray[indexPath.row].title)
-        categories.categoriesArray.remove(at: indexPath.row)
+        dataModel.deleteFileWith(name: dataModel.listOfCategories[indexPath.row].title)
+        dataModel.listOfCategories.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .automatic)
-        categories.saveAtFile(element: self.categories.categoriesArray)
     }
     
     override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        categories.move(item: categories.categoriesArray[sourceIndexPath.row], to: destinationIndexPath.row)
+        dataModel.move(item: dataModel.listOfCategories[sourceIndexPath.row], to: destinationIndexPath.row)
         tableView.reloadData()
-    }
-    
-    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        let categoryDetailedViewController = storyboard?.instantiateViewController(withIdentifier: "CategoryDetailViewController") as! CategoryDetailTableViewController
-        navigationController?.pushViewController(categoryDetailedViewController, animated: true)
     }
 }
 
-extension CategoriesViewController: ToDoeeListViewControllerDelegate {
-    func increaseToDoeeAmountByOne(_: ToDoeeListViewController) {
-        categories.totalToDoeeAmount += 1
-        tableView.reloadData()
+extension CategoriesViewController: DetailedCategoryViewControllerDelegate {
+    func addNewToDoee(_: DetailedCategoryViewController, newItem: Category)  {
+        dataModel.listOfCategories.insert(newItem, at: 0)
+        let indexPath = IndexPath(row: 0, section: 0)
+        self.tableView.insertRows(at: [indexPath], with: .automatic)
     }
-    
-    func decreaseToDoeeAmountByOne(_: ToDoeeListViewController) {
-        categories.totalToDoeeAmount -= 1
-        tableView.reloadData()
+
+    func addNewToDoee(_: DetailedCategoryViewController, editedItem: Category) {
+        guard let index = editedItem.index else {return}
+        dataModel.listOfCategories[index] = editedItem
+        self.tableView.reloadData()
+    }
+}
+
+//to update CategoriesViewController tableView after creating new ToDoee Item to count Items
+extension CategoriesViewController: ToDoeeListViewControllerDelegate {
+    func updateCategoryViewControllerData(_: ToDoeeListViewController) {
+        self.tableView.reloadData()
     }
 }
 

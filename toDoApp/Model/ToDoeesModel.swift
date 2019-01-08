@@ -13,19 +13,7 @@ struct ToDoeesModel {
     
     var toDoeesArray = [ToDoee]()
     
-    mutating func move(item: ToDoee, to index: Int) {
-        guard let currentIndex = toDoeesArray.firstIndex(of: item) else {return}
-        toDoeesArray.remove(at: currentIndex)
-        toDoeesArray.insert(item, at: index)
-    }
     
-    mutating func remove(items: [ToDoee]) {
-        for item in items {
-            if let index = toDoeesArray.firstIndex(of: item) {
-                toDoeesArray.remove(at: index)
-            }
-        }
-    }
     
     func saveAtFile(name: String, element: [ToDoee]) {
         
