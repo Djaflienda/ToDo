@@ -41,11 +41,7 @@ class DetailedToDoeeViewController: UITableViewController {
         titleTextField.text = editingItem.title
         descriptionTextField.text = editingItem.description
     }
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return editingItem == nil ? 1 : 3
-    }
-    
+        
     @IBAction func saveBarButtonPressed(_ sender: UIBarButtonItem) {
         if editingItem == nil {
             saveNewItem()

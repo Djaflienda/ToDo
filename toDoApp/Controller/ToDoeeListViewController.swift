@@ -9,7 +9,8 @@
 import UIKit
 
 class ToDoeeListViewController: UITableViewController {
-        
+    @IBOutlet weak var deleteBarButton: UIBarButtonItem!
+    
     var categoryIndex: Int!
     var dataModel: DataModel!
     
@@ -25,24 +26,10 @@ class ToDoeeListViewController: UITableViewController {
         tableView.allowsMultipleSelectionDuringEditing = true
     }
     
-    //Apple Documentation tells not to use this method with tableView commit editingStyle
-    //Do not know how to fix it right now
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: true)
         tableView.setEditing(tableView.isEditing, animated: true)
-        
-        if editing {
-            let deleteBarButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteRows))
-            deleteBarButton.tintColor = UIColor.red
-            
-            self.navigationItem.rightBarButtonItems?.insert(deleteBarButton, at: 1)
-            //I dont like this line - should change
-            self.navigationItem.rightBarButtonItems?[0].isEnabled = false
-        } else {
-            self.navigationItem.rightBarButtonItems?.remove(at: 1)
-            //The same here
-            self.navigationItem.rightBarButtonItems?[0].isEnabled = true
-        }
+        deleteBarButton.isEnabled = editing ? true : false
     }
     
     @objc
@@ -91,8 +78,13 @@ class ToDoeeListViewController: UITableViewController {
         cell.titleLabel.text = dataModel.listOfCategories[categoryIndex].toDoeeItems[indexPath.row].title
         if dataModel.listOfCategories[categoryIndex].toDoeeItems[indexPath.row].checked {
             cell.checkMarkButton.setImage(UIImage(named: "checked"), for: .normal)
+            
+            cell.titleLabel.textColor = UIColor.lightGray
+            
         } else {
             cell.checkMarkButton.setImage(UIImage(named: "unchecked"), for: .normal)
+            cell.titleLabel.textColor = UIColor.black
+
         }
         return cell
     }
@@ -102,6 +94,17 @@ class ToDoeeListViewController: UITableViewController {
         if tableView.isEditing {return}
         tableView.deselectRow(at: indexPath, animated: true)
         dataModel.listOfCategories[categoryIndex].toDoeeItems[indexPath.row].toggleState()
+        //next block move checked item to the bottom of the table view
+        //and move it back to position 0 if item is unchecked
+        let toDoeeItems = dataModel.listOfCategories[categoryIndex].toDoeeItems
+        switch toDoeeItems[indexPath.row].checked {
+        case true:
+            let lastArrayPosition = toDoeeItems.count
+            dataModel.listOfCategories[categoryIndex].move(item: toDoeeItems[indexPath.row], to: lastArrayPosition - 1)
+        case false:
+            dataModel.listOfCategories[categoryIndex].move(item: toDoeeItems[indexPath.row], to: 0)
+        }
+        
         tableView.reloadData()
     }
     

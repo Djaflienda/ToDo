@@ -34,13 +34,19 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="sQc-FY-Ql7">
                         <barButtonItem key="leftBarButtonItem" title="Menu" id="nTi-2K-X0v"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="8n2-al-IeY">
-                            <connections>
-                                <action selector="createNewCategoryButtonPressed:" destination="n7r-HC-lB5" id="Myc-FW-qrg"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="add" id="8n2-al-IeY">
+                                <connections>
+                                    <action selector="createNewCategoryButtonPressed:" destination="n7r-HC-lB5" id="Myc-FW-qrg"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem enabled="NO" systemItem="trash" id="tdF-hX-nGD">
+                                <color key="tintColor" red="1" green="0.34874378410000001" blue="0.2810183382" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="deleteBarButton" destination="tdF-hX-nGD" id="o7h-cg-qcm"/>
                         <segue destination="46Q-6h-IYK" kind="show" identifier="ToDoeeSeque" id="o1y-V6-Is2"/>
                         <segue destination="lQf-fy-VbE" kind="show" identifier="CategoryDetailed" id="OGM-2C-uQg"/>
                     </connections>
@@ -104,13 +110,19 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="g0R-gL-lgG">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="dP2-4L-FF9">
-                            <connections>
-                                <action selector="createNewToDoeeButtonPressed:" destination="46Q-6h-IYK" id="Fve-fX-l0u"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="add" id="dP2-4L-FF9">
+                                <connections>
+                                    <action selector="createNewToDoeeButtonPressed:" destination="46Q-6h-IYK" id="Fve-fX-l0u"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem enabled="NO" systemItem="trash" id="FQ7-m6-0ju">
+                                <color key="tintColor" red="1" green="0.34874378410000001" blue="0.2810183382" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="deleteBarButton" destination="FQ7-m6-0ju" id="Xw7-TS-9wq"/>
                         <segue destination="bMc-d4-nvB" kind="show" identifier="ToDoeeDetailed" id="geW-tx-3fC"/>
                     </connections>
                 </tableViewController>
@@ -181,7 +193,7 @@
                                                 <constraint firstAttribute="bottom" secondItem="tQI-Hw-xOv" secondAttribute="bottom" constant="1.5" id="FBT-38-eGU"/>
                                                 <constraint firstAttribute="bottom" secondItem="wQh-EW-96W" secondAttribute="bottom" constant="6.5" id="K8J-bf-wxj"/>
                                                 <constraint firstItem="wQh-EW-96W" firstAttribute="leading" secondItem="dUg-bk-V33" secondAttribute="leading" constant="16" id="hCO-r5-wYp"/>
-                                                <constraint firstItem="tQI-Hw-xOv" firstAttribute="leading" secondItem="wQh-EW-96W" secondAttribute="trailing" constant="225" id="hfB-qp-MdK"/>
+                                                <constraint firstItem="tQI-Hw-xOv" firstAttribute="leading" relation="lessThanOrEqual" secondItem="wQh-EW-96W" secondAttribute="trailing" constant="225" id="hfB-qp-MdK"/>
                                                 <constraint firstAttribute="trailing" secondItem="tQI-Hw-xOv" secondAttribute="trailing" constant="8" id="jlW-Ly-TfG"/>
                                                 <constraint firstItem="tQI-Hw-xOv" firstAttribute="top" secondItem="dUg-bk-V33" secondAttribute="top" constant="2" id="klg-sG-xp5"/>
                                             </constraints>
@@ -320,10 +332,6 @@
                                                 </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remind on:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sa0-ep-9tQ">
                                                     <rect key="frame" x="16" y="6" width="86" height="31"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="86" id="8fW-xL-Car"/>
-                                                        <constraint firstAttribute="height" constant="31" id="Fxm-iL-DgE"/>
-                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -332,7 +340,7 @@
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="PI4-dY-vAW" secondAttribute="bottom" constant="6.5" id="GZJ-rr-oYJ"/>
                                                 <constraint firstItem="PI4-dY-vAW" firstAttribute="top" secondItem="yWR-pP-lCj" secondAttribute="top" constant="6" id="Ojw-c4-hYD"/>
-                                                <constraint firstItem="PI4-dY-vAW" firstAttribute="leading" secondItem="sa0-ep-9tQ" secondAttribute="trailing" constant="208" id="cC1-l5-Rle"/>
+                                                <constraint firstItem="PI4-dY-vAW" firstAttribute="leading" relation="lessThanOrEqual" secondItem="sa0-ep-9tQ" secondAttribute="trailing" constant="208" id="cC1-l5-Rle"/>
                                                 <constraint firstItem="sa0-ep-9tQ" firstAttribute="top" secondItem="yWR-pP-lCj" secondAttribute="top" constant="6" id="eOf-hZ-4Tz"/>
                                                 <constraint firstItem="sa0-ep-9tQ" firstAttribute="leading" secondItem="yWR-pP-lCj" secondAttribute="leading" constant="16" id="gTe-GA-luq"/>
                                                 <constraint firstAttribute="trailing" secondItem="PI4-dY-vAW" secondAttribute="trailing" constant="18" id="pM7-6P-t2L"/>
@@ -352,17 +360,26 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X3J-GD-qsP">
-                                                    <rect key="frame" x="16" y="11" width="343" height="98"/>
+                                                    <rect key="frame" x="16" y="33" width="343" height="78"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nWc-iC-Ah7">
+                                                    <rect key="frame" x="16" y="6" width="46" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="X3J-GD-qsP" firstAttribute="top" secondItem="bBK-0D-rrr" secondAttribute="topMargin" id="MgQ-Tf-Tdv"/>
-                                                <constraint firstItem="X3J-GD-qsP" firstAttribute="bottom" secondItem="bBK-0D-rrr" secondAttribute="bottomMargin" id="USD-5o-nYz"/>
-                                                <constraint firstItem="X3J-GD-qsP" firstAttribute="leading" secondItem="bBK-0D-rrr" secondAttribute="leadingMargin" id="cZe-u8-2XF"/>
-                                                <constraint firstItem="X3J-GD-qsP" firstAttribute="trailing" secondItem="bBK-0D-rrr" secondAttribute="trailingMargin" id="pan-6M-1QY"/>
+                                                <constraint firstAttribute="bottom" secondItem="X3J-GD-qsP" secondAttribute="bottom" constant="8.5" id="1HN-Hr-WLY"/>
+                                                <constraint firstItem="X3J-GD-qsP" firstAttribute="top" secondItem="nWc-iC-Ah7" secondAttribute="bottom" constant="6.5" id="2Co-CF-zyl"/>
+                                                <constraint firstItem="nWc-iC-Ah7" firstAttribute="top" secondItem="bBK-0D-rrr" secondAttribute="top" constant="6" id="9q7-uR-WIh"/>
+                                                <constraint firstItem="X3J-GD-qsP" firstAttribute="leading" secondItem="bBK-0D-rrr" secondAttribute="leading" constant="16" id="EDA-Sn-Kff"/>
+                                                <constraint firstAttribute="trailing" secondItem="X3J-GD-qsP" secondAttribute="trailing" constant="16" id="Ezo-RZ-fme"/>
+                                                <constraint firstItem="nWc-iC-Ah7" firstAttribute="leading" secondItem="bBK-0D-rrr" secondAttribute="leading" constant="16" id="Uxf-54-Dra"/>
+                                                <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="nWc-iC-Ah7" secondAttribute="trailing" constant="313" id="qfu-Aw-yeu"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>

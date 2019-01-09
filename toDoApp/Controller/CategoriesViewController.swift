@@ -10,6 +10,8 @@ import UIKit
 
 class CategoriesViewController: UITableViewController {
     
+    @IBOutlet weak var deleteBarButton: UIBarButtonItem!
+    
     var dataModel: DataModel!
     
     override func viewWillAppear(_ animated: Bool) {
@@ -19,10 +21,11 @@ class CategoriesViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "List of Categories"
-        
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
+            self.title = "List of Categories"
+        } else {
+            self.title = "Categories"
         }
         navigationItem.rightBarButtonItems?.append(editButtonItem)
         tableView.allowsMultipleSelectionDuringEditing = true
@@ -37,25 +40,11 @@ class CategoriesViewController: UITableViewController {
             configureSegueForRow(at: index)
         }
     }
-    
-    //Apple Documentation tells not to use this method with tableView commit editingStyle
-    //Do not know how to fix it right now
+
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: true)
         tableView.setEditing(tableView.isEditing, animated: true)
-        
-        if editing {
-            let deleteBarButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteRows))
-            deleteBarButton.tintColor = UIColor.red
-            
-            self.navigationItem.rightBarButtonItems?.insert(deleteBarButton, at: 1)
-            //I dont like this line - should change
-            self.navigationItem.rightBarButtonItems?[0].isEnabled = false
-        } else {
-            self.navigationItem.rightBarButtonItems?.remove(at: 1)
-            //The same here
-            self.navigationItem.rightBarButtonItems?[0].isEnabled = true
-        }
+        deleteBarButton.isEnabled = editing ? true : false
     }
     
     @objc
