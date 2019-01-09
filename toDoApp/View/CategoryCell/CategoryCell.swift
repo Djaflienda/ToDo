@@ -1,17 +1,18 @@
 //
-//  NotificationTableViewCell.swift
+//  CategoryCell.swift
 //  toDoApp
 //
-//  Created by MacBook-Игорь on 04/01/2019.
+//  Created by MacBook-Игорь on 08/01/2019.
 //  Copyright © 2019 MacBook-Игорь. All rights reserved.
 //
 
 import UIKit
 
-class NotificationTableViewCell: UITableViewCell {
+class CategoryCell: UITableViewCell {
 
-    @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var switcher: UISwitch!
+    @IBOutlet weak var iconImage: UIImageView!
+    @IBOutlet weak var categoryTitle: UILabel!
+    @IBOutlet weak var categoryDetail: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,6 +25,4 @@ class NotificationTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    @IBAction func switcherToggle(_ sender: UISwitch) {
-    }
 }

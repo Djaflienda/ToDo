@@ -1,16 +1,17 @@
 //
-//  TitleTableViewCell.swift
+//  IconPickerCell.swift
 //  toDoApp
 //
-//  Created by MacBook-Игорь on 04/01/2019.
+//  Created by MacBook-Игорь on 08/01/2019.
 //  Copyright © 2019 MacBook-Игорь. All rights reserved.
 //
 
 import UIKit
 
-class TitleTableViewCell: UITableViewCell {
+class IconPickerCell: UITableViewCell {
 
-    @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var categoryIcon: UIImageView!
+    @IBOutlet weak var categoryTitle: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -23,8 +23,6 @@ class DetailedToDoeeViewController: UITableViewController {
     var editingItemIndex: Int?
     weak var delegate: DetailedToDoeeViewControllerDelegate?
     
-    let titleForSectionHeader = ["ToDoee Title", "Does not work yet", "Description"]
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,11 +30,9 @@ class DetailedToDoeeViewController: UITableViewController {
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
         }
-        
         if editingItem != nil {
             configureInitialViewWhenEditing()
         }
-
     }
     
     func configureInitialViewWhenEditing() {
@@ -50,10 +46,6 @@ class DetailedToDoeeViewController: UITableViewController {
         return editingItem == nil ? 1 : 3
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return titleForSectionHeader[section]
-    }
-    
     @IBAction func saveBarButtonPressed(_ sender: UIBarButtonItem) {
         if editingItem == nil {
             saveNewItem()
@@ -62,8 +54,12 @@ class DetailedToDoeeViewController: UITableViewController {
         }
     }
     
+    //seems that I can combine next two methods into one
+    //PAY ATTANTION
     func saveNewItem() {
         guard let title = titleTextField.text, title != "" else {
+            titleTextField.borderStyle = .roundedRect
+            
             //shake titleTextField and boarder color is red
             return
         }
@@ -75,8 +71,6 @@ class DetailedToDoeeViewController: UITableViewController {
     
     func saveChangestoTheItem() {
         guard let title = titleTextField.text, title != "",
-            //I don't think I should check for optional here, it doesn't make sense because
-            //I only run this method if editingItem != nil
                 var editingItem = editingItem,
                 let editingItemIndex = editingItemIndex else {
                     //also shake

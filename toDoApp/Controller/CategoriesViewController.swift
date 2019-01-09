@@ -12,27 +12,29 @@ class CategoriesViewController: UITableViewController {
     
     var dataModel: DataModel!
     
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //to have access to Document folder
-        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("Categories.plist"))
-        
-        title = "List of Categories"
+        self.title = "List of Categories"
         
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
         }
         navigationItem.rightBarButtonItems?.append(editButtonItem)
-        tableView.allowsMultipleSelectionDuringEditing = true        
+        tableView.allowsMultipleSelectionDuringEditing = true
+        
+        tableView.register(UINib(nibName: "CategoryCell", bundle: nil), forCellReuseIdentifier: "categoryCell")
     }
     
     override func viewDidAppear(_ animated: Bool) {
         navigationController?.delegate = self
         let index = dataModel.indexOfSelectedToDoeeList
-        print(index)
         if index >= 0 && index < dataModel.listOfCategories.count {
-            configureSegueForRowAt(index: index)
+            configureSegueForRow(at: index)
         }
     }
     
@@ -58,8 +60,6 @@ class CategoriesViewController: UITableViewController {
     
     @objc
     func deleteRows() {
-        //instead of using index in ToDoee instance I can use tableView.indexPathsForSelectedRow
-        //SOLVE
         if let selectedRows = tableView.indexPathsForSelectedRows {
             var items = [Category]()
             for indexPath in selectedRows {
@@ -73,16 +73,21 @@ class CategoriesViewController: UITableViewController {
     }
     
     @IBAction func createNewCategoryButtonPressed(_ sender: UIBarButtonItem) {
-        let destinationViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailedCategoryViewController") as! DetailedCategoryViewController
-        destinationViewController.delegate = self
-        self.navigationController?.pushViewController(destinationViewController, animated: true)
+        configureSegueToDetailedCategoryFromRow(at: nil)
     }
     
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        configureSegueToDetailedCategoryFromRow(at: indexPath.row)
+    }
+    
+    func configureSegueToDetailedCategoryFromRow(at index: Int?) {
         let destinationViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailedCategoryViewController") as! DetailedCategoryViewController
         destinationViewController.delegate = self
-        destinationViewController.editingItemIndex = indexPath.row
-        destinationViewController.editingItem = dataModel.listOfCategories[indexPath.row]
+        if let index = index {
+            destinationViewController.editingItemIndex = index
+            destinationViewController.editingItem = dataModel.listOfCategories[index]
+            destinationViewController.iconName = dataModel.listOfCategories[index].iconName
+        }
         self.navigationController?.pushViewController(destinationViewController, animated: true)
     }
 }
@@ -95,28 +100,35 @@ extension CategoriesViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath)
-
-        cell.textLabel?.text = dataModel.listOfCategories[indexPath.row].title
-        cell.detailTextLabel?.text = "\(dataModel.listOfCategories[indexPath.row].toDoeeItems.count) ToDoees in this list"
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as! CategoryCell
+        cell.accessoryType = .detailDisclosureButton
+        cell.categoryTitle.text = dataModel.listOfCategories[indexPath.row].title
+        cell.categoryDetail.text = configureDescriptionStringForCategory(at: indexPath.row)
+        cell.iconImage.image = UIImage(named: dataModel.listOfCategories[indexPath.row].iconName)
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if isEditing {
-            return
+    func configureDescriptionStringForCategory(at index: Int) -> String {
+        let allItems = dataModel.listOfCategories[index].toDoeeItems.count
+        let uncheckedItems = dataModel.listOfCategories[index].countUncheckedItems()
+        if allItems == 0 {
+            return "(No items yet)"
+        } else if allItems > 0 && uncheckedItems == 0 {
+            return "All Done!"
         }
-        dataModel.indexOfSelectedToDoeeList = indexPath.row
-        configureSegueForRowAt(index: indexPath.row)
+        return "\(allItems - uncheckedItems) of \(allItems) Done"
     }
     
-    func configureSegueForRowAt(index: Int) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if isEditing {return}
+        dataModel.indexOfSelectedToDoeeList = indexPath.row
+        configureSegueForRow(at: indexPath.row)
+    }
+    
+    func configureSegueForRow(at index: Int) {
         let listViewController = storyboard?.instantiateViewController(withIdentifier: "ToDoeeList") as! ToDoeeListViewController
         listViewController.dataModel = dataModel
-        listViewController.categoryTitle = dataModel.listOfCategories[index].title
         listViewController.categoryIndex = index
-        listViewController.delegate = self
         self.navigationController?.pushViewController(listViewController, animated: true)
     }
     
@@ -142,13 +154,6 @@ extension CategoriesViewController: DetailedCategoryViewControllerDelegate {
     func addNewToDoee(_: DetailedCategoryViewController, editedItem: Category) {
         guard let index = editedItem.index else {return}
         dataModel.listOfCategories[index] = editedItem
-        self.tableView.reloadData()
-    }
-}
-
-//to update CategoriesViewController tableView after creating new ToDoee Item to count Items
-extension CategoriesViewController: ToDoeeListViewControllerDelegate {
-    func updateCategoryViewControllerData(_: ToDoeeListViewController) {
         self.tableView.reloadData()
     }
 }

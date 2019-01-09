@@ -47,9 +47,8 @@ class DataModel {
     
     func handleFirstRun() {
         let firstRun = UserDefaults.standard.bool(forKey: "isFirstRun")
-        
         if firstRun {
-            let newCategory = Category.init(title: "New Category", index: nil, description: nil, toDoeeItems: [])
+            let newCategory = Category.init(title: "New Category", iconName: "default", index: nil, description: nil, toDoeeItems: [])
             listOfCategories.append(newCategory)
             indexOfSelectedToDoeeList = 0
             UserDefaults.standard.set(false, forKey: "isFirstRun")

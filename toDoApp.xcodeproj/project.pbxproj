@@ -7,17 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FA22059F21D955A8006FEC63 /* tasks -to-do.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA22059E21D955A8006FEC63 /* tasks -to-do.swift */; };
 		FA2D978721C8EE5D00E7F385 /* ToDoeeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2D978621C8EE5D00E7F385 /* ToDoeeTableViewCell.swift */; };
 		FA370F5621E212E800939513 /* DetailedToDoeeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA370F5521E212E800939513 /* DetailedToDoeeViewController.swift */; };
 		FA370F5821E22A7300939513 /* DetailedCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA370F5721E22A7300939513 /* DetailedCategoryViewController.swift */; };
+		FA3B113621E4E269007609B7 /* IconPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3B113521E4E269007609B7 /* IconPickerViewController.swift */; };
 		FA3F427A21CBDF7700D18620 /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3F427921CBDF7700D18620 /* CategoriesViewController.swift */; };
 		FA3F427C21CBE02600D18620 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3F427B21CBE02600D18620 /* Category.swift */; };
 		FA68737021D4CEDD00F77CBA /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA68736F21D4CEDD00F77CBA /* DataModel.swift */; };
-		FA6F7E3C21DFAC0B00053E98 /* TitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6F7E3A21DFAC0B00053E98 /* TitleTableViewCell.swift */; };
-		FA6F7E3D21DFAC0B00053E98 /* TitleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA6F7E3B21DFAC0B00053E98 /* TitleTableViewCell.xib */; };
-		FA6F7E4121DFAE7F00053E98 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6F7E3F21DFAE7F00053E98 /* NotificationTableViewCell.swift */; };
-		FA6F7E4221DFAE7F00053E98 /* NotificationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA6F7E4021DFAE7F00053E98 /* NotificationTableViewCell.xib */; };
+		FA7B146621E515FE008AB202 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7B146421E515FE008AB202 /* CategoryCell.swift */; };
+		FA7B146721E515FE008AB202 /* CategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7B146521E515FE008AB202 /* CategoryCell.xib */; };
+		FA7B146B21E5333C008AB202 /* IconPickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7B146921E5333C008AB202 /* IconPickerCell.swift */; };
+		FA7B146C21E5333C008AB202 /* IconPickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7B146A21E5333C008AB202 /* IconPickerCell.xib */; };
 		FAE1C6F321BC57D90068647B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE1C6F221BC57D90068647B /* AppDelegate.swift */; };
 		FAE1C6F521BC57D90068647B /* ToDoeeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE1C6F421BC57D90068647B /* ToDoeeListViewController.swift */; };
 		FAE1C6F821BC57D90068647B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAE1C6F621BC57D90068647B /* Main.storyboard */; };
@@ -27,17 +27,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		FA22059E21D955A8006FEC63 /* tasks -to-do.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "tasks -to-do.swift"; sourceTree = "<group>"; };
 		FA2D978621C8EE5D00E7F385 /* ToDoeeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoeeTableViewCell.swift; sourceTree = "<group>"; };
 		FA370F5521E212E800939513 /* DetailedToDoeeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedToDoeeViewController.swift; sourceTree = "<group>"; };
 		FA370F5721E22A7300939513 /* DetailedCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedCategoryViewController.swift; sourceTree = "<group>"; };
+		FA3B113521E4E269007609B7 /* IconPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPickerViewController.swift; sourceTree = "<group>"; };
 		FA3F427921CBDF7700D18620 /* CategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
 		FA3F427B21CBE02600D18620 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		FA68736F21D4CEDD00F77CBA /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
-		FA6F7E3A21DFAC0B00053E98 /* TitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTableViewCell.swift; sourceTree = "<group>"; };
-		FA6F7E3B21DFAC0B00053E98 /* TitleTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TitleTableViewCell.xib; sourceTree = "<group>"; };
-		FA6F7E3F21DFAE7F00053E98 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
-		FA6F7E4021DFAE7F00053E98 /* NotificationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NotificationTableViewCell.xib; sourceTree = "<group>"; };
+		FA7B146421E515FE008AB202 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
+		FA7B146521E515FE008AB202 /* CategoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryCell.xib; sourceTree = "<group>"; };
+		FA7B146921E5333C008AB202 /* IconPickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPickerCell.swift; sourceTree = "<group>"; };
+		FA7B146A21E5333C008AB202 /* IconPickerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IconPickerCell.xib; sourceTree = "<group>"; };
 		FAE1C6EF21BC57D90068647B /* toDoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = toDoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAE1C6F221BC57D90068647B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FAE1C6F421BC57D90068647B /* ToDoeeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoeeListViewController.swift; sourceTree = "<group>"; };
@@ -74,8 +74,8 @@
 			children = (
 				FAE1C6F621BC57D90068647B /* Main.storyboard */,
 				FAE1C6FB21BC57DA0068647B /* LaunchScreen.storyboard */,
-				FA6F7E4321DFAE8400053E98 /* NotificationCells */,
-				FA6F7E3E21DFAC1300053E98 /* TitleCell */,
+				FA7B146821E51603008AB202 /* CategoryCell */,
+				FA7B146D21E53342008AB202 /* IconViewCell */,
 				FA2D978621C8EE5D00E7F385 /* ToDoeeTableViewCell.swift */,
 			);
 			path = View;
@@ -86,28 +86,29 @@
 			children = (
 				FA3F427921CBDF7700D18620 /* CategoriesViewController.swift */,
 				FA370F5721E22A7300939513 /* DetailedCategoryViewController.swift */,
+				FA3B113521E4E269007609B7 /* IconPickerViewController.swift */,
 				FAE1C6F421BC57D90068647B /* ToDoeeListViewController.swift */,
 				FA370F5521E212E800939513 /* DetailedToDoeeViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		FA6F7E3E21DFAC1300053E98 /* TitleCell */ = {
+		FA7B146821E51603008AB202 /* CategoryCell */ = {
 			isa = PBXGroup;
 			children = (
-				FA6F7E3A21DFAC0B00053E98 /* TitleTableViewCell.swift */,
-				FA6F7E3B21DFAC0B00053E98 /* TitleTableViewCell.xib */,
+				FA7B146421E515FE008AB202 /* CategoryCell.swift */,
+				FA7B146521E515FE008AB202 /* CategoryCell.xib */,
 			);
-			path = TitleCell;
+			path = CategoryCell;
 			sourceTree = "<group>";
 		};
-		FA6F7E4321DFAE8400053E98 /* NotificationCells */ = {
+		FA7B146D21E53342008AB202 /* IconViewCell */ = {
 			isa = PBXGroup;
 			children = (
-				FA6F7E3F21DFAE7F00053E98 /* NotificationTableViewCell.swift */,
-				FA6F7E4021DFAE7F00053E98 /* NotificationTableViewCell.xib */,
+				FA7B146921E5333C008AB202 /* IconPickerCell.swift */,
+				FA7B146A21E5333C008AB202 /* IconPickerCell.xib */,
 			);
-			path = NotificationCells;
+			path = IconViewCell;
 			sourceTree = "<group>";
 		};
 		FAE1C6E621BC57D90068647B = {
@@ -129,7 +130,6 @@
 		FAE1C6F121BC57D90068647B /* toDoApp */ = {
 			isa = PBXGroup;
 			children = (
-				FA22059E21D955A8006FEC63 /* tasks -to-do.swift */,
 				FAE1C6F221BC57D90068647B /* AppDelegate.swift */,
 				FA3F427521CAD2DF00D18620 /* Model */,
 				FA3F427621CAD2E600D18620 /* View */,
@@ -198,10 +198,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA6F7E4221DFAE7F00053E98 /* NotificationTableViewCell.xib in Resources */,
-				FA6F7E3D21DFAC0B00053E98 /* TitleTableViewCell.xib in Resources */,
+				FA7B146721E515FE008AB202 /* CategoryCell.xib in Resources */,
 				FAE1C6FD21BC57DA0068647B /* LaunchScreen.storyboard in Resources */,
 				FAE1C6FA21BC57DA0068647B /* Assets.xcassets in Resources */,
+				FA7B146C21E5333C008AB202 /* IconPickerCell.xib in Resources */,
 				FAE1C6F821BC57D90068647B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -215,16 +215,16 @@
 			files = (
 				FAE1C6F521BC57D90068647B /* ToDoeeListViewController.swift in Sources */,
 				FAE1C70521BC58990068647B /* ToDoee.swift in Sources */,
-				FA6F7E4121DFAE7F00053E98 /* NotificationTableViewCell.swift in Sources */,
-				FA6F7E3C21DFAC0B00053E98 /* TitleTableViewCell.swift in Sources */,
 				FA68737021D4CEDD00F77CBA /* DataModel.swift in Sources */,
 				FA2D978721C8EE5D00E7F385 /* ToDoeeTableViewCell.swift in Sources */,
-				FA22059F21D955A8006FEC63 /* tasks -to-do.swift in Sources */,
 				FAE1C6F321BC57D90068647B /* AppDelegate.swift in Sources */,
 				FA370F5821E22A7300939513 /* DetailedCategoryViewController.swift in Sources */,
 				FA3F427C21CBE02600D18620 /* Category.swift in Sources */,
 				FA3F427A21CBDF7700D18620 /* CategoriesViewController.swift in Sources */,
+				FA3B113621E4E269007609B7 /* IconPickerViewController.swift in Sources */,
 				FA370F5621E212E800939513 /* DetailedToDoeeViewController.swift in Sources */,
+				FA7B146B21E5333C008AB202 /* IconPickerCell.swift in Sources */,
+				FA7B146621E515FE008AB202 /* CategoryCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,7 +381,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Igor-Tumanov.toDoApp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -400,7 +400,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Igor-Tumanov.toDoApp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

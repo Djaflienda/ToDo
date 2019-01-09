@@ -12,6 +12,7 @@ struct Category: Equatable, Codable {
 //class Category: Codable {
 
     var title: String
+    var iconName: String
     var index: Int?
     var description: String?
     var toDoeeItems: [ToDoee] = []
@@ -30,5 +31,10 @@ struct Category: Equatable, Codable {
         }
     }
     
+    func countUncheckedItems() -> Int {
+        return toDoeeItems.reduce(0) { (count, item) in
+            count + (item.checked ? 0 : 1)
+        }
+    }
     
 }

@@ -8,22 +8,15 @@
 
 import UIKit
 
-protocol ToDoeeListViewControllerDelegate: class {
-    func updateCategoryViewControllerData(_: ToDoeeListViewController)
-}
-
 class ToDoeeListViewController: UITableViewController {
         
-    var categoryTitle: String!
     var categoryIndex: Int!
-
     var dataModel: DataModel!
-    weak var delegate: ToDoeeListViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = categoryTitle
+        self.title = dataModel.listOfCategories[categoryIndex].title
         
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
@@ -64,19 +57,30 @@ class ToDoeeListViewController: UITableViewController {
             tableView.deleteRows(at: selectedRows, with: .automatic)
             tableView.endUpdates()
         }
-        delegate?.updateCategoryViewControllerData(self)
     }
 
     @IBAction
     func createNewToDoeeButtonPressed(_ sender: UIBarButtonItem) {
+        configureSegueToDetailedToDoeeFromRow(at: nil)
+    }
+    
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        configureSegueToDetailedToDoeeFromRow(at: indexPath.row)
+    }
+    
+    func configureSegueToDetailedToDoeeFromRow(at index: Int?) {
         let destinationViewController = storyboard?.instantiateViewController(withIdentifier: "DetailedToDoeeViewController") as! DetailedToDoeeViewController
         destinationViewController.delegate = self
+        if let index = index {
+            destinationViewController.editingItem = dataModel.listOfCategories[categoryIndex].toDoeeItems[index]
+            destinationViewController.editingItemIndex = index
+        }
         navigationController?.pushViewController(destinationViewController, animated: true)
     }
-}
-
-// MARK: TableViewDataSource and Delegate Methods
-extension ToDoeeListViewController {
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 44
+    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataModel.listOfCategories[categoryIndex].toDoeeItems.count
@@ -84,7 +88,6 @@ extension ToDoeeListViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ToDoeeTableViewCell
-
         cell.titleLabel.text = dataModel.listOfCategories[categoryIndex].toDoeeItems[indexPath.row].title
         if dataModel.listOfCategories[categoryIndex].toDoeeItems[indexPath.row].checked {
             cell.checkMarkButton.setImage(UIImage(named: "checked"), for: .normal)
@@ -96,9 +99,7 @@ extension ToDoeeListViewController {
     
     //configure a behavior when touching a tableView cell
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if tableView.isEditing {
-            return
-        }
+        if tableView.isEditing {return}
         tableView.deselectRow(at: indexPath, animated: true)
         dataModel.listOfCategories[categoryIndex].toDoeeItems[indexPath.row].toggleState()
         tableView.reloadData()
@@ -108,21 +109,12 @@ extension ToDoeeListViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         dataModel.listOfCategories[categoryIndex].toDoeeItems.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .automatic)
-        delegate?.updateCategoryViewControllerData(self)
     }
     
     //during editingMode provide an ability to move rows. A 'move' indicator is also shown on the right hand side
     override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        dataModel.listOfCategories[categoryIndex].move(item:dataModel.listOfCategories[categoryIndex].toDoeeItems[sourceIndexPath.row], to: destinationIndexPath.row)
+    dataModel.listOfCategories[categoryIndex].move(item:dataModel.listOfCategories[categoryIndex].toDoeeItems[sourceIndexPath.row], to: destinationIndexPath.row)
         tableView.reloadData()
-    }
-    
-    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        let destinationViewController = storyboard?.instantiateViewController(withIdentifier: "DetailedToDoeeViewController") as! DetailedToDoeeViewController
-        destinationViewController.editingItem = dataModel.listOfCategories[categoryIndex].toDoeeItems[indexPath.row]
-        destinationViewController.editingItemIndex = indexPath.row
-        destinationViewController.delegate = self
-        navigationController?.pushViewController(destinationViewController, animated: true)
     }
 }
 
@@ -131,7 +123,6 @@ extension ToDoeeListViewController: DetailedToDoeeViewControllerDelegate {
         dataModel.listOfCategories[categoryIndex].toDoeeItems.insert(newItem, at: 0)
         let indexPath = IndexPath(row: 0, section: 0)
         self.tableView.insertRows(at: [indexPath], with: .automatic)
-        delegate?.updateCategoryViewControllerData(self)
     }
     
     func addNewToDoee(_: DetailedToDoeeViewController, editedItem: ToDoee) {

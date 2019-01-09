@@ -16,12 +16,15 @@ protocol DetailedCategoryViewControllerDelegate: class {
 class DetailedCategoryViewController: UITableViewController {
     
     @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var iconImageView: UIImageView!
     
     var editingItem: Category?
     var editingItemIndex: Int?
+    var iconName = "default"
+
     weak var delegate: DetailedCategoryViewControllerDelegate?
     
-    let titleForSectionHeader = ["Category Title", "Description"]
+//    let titleForSectionHeader = ["Category Title", "Description"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,21 +36,36 @@ class DetailedCategoryViewController: UITableViewController {
         
         if editingItem != nil {
             configureInitialViewWhenEditing()
+        } else {
+            configureInitialView()
         }
-        
+    }
+    
+    func configureInitialView() {
+        iconImageView.image = UIImage(named: iconName)
     }
     
     func configureInitialViewWhenEditing() {
         guard let editingItem = editingItem else {return}
         self.title = editingItem.title
+        titleTextField.text = editingItem.title
+        iconImageView.image = UIImage(named: editingItem.iconName)
     }
     
-//    override func numberOfSections(in tableView: UITableView) -> Int {
-//        return editingItem == nil ? 1 : 2
+    //I do not actually need this method as soon as I set titles in storyboard
+    //Useful if I would like to change section title dynamicly
+//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return titleForSectionHeader[section]
 //    }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return titleForSectionHeader[section]
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        //As soon as I have only one row in section I do not need to check for row index
+        if indexPath.section == 1 {
+            let destinationViewController = storyboard?.instantiateViewController(withIdentifier: "IconPickerViewController") as! IconPickerViewController
+            destinationViewController.delegate = self
+            navigationController?.pushViewController(destinationViewController, animated: true)
+        }
     }
     
     @IBAction func saveBarButtonPressed(_ sender: UIBarButtonItem) {
@@ -58,24 +76,34 @@ class DetailedCategoryViewController: UITableViewController {
         }
     }
     
+    //Can I do something instead of guard in the next two methods???
+    //PAY ATTANTION
     func saveNewItem() {
-        guard let title = titleTextField.text else  {return}
-        let newItem =  Category.init(title: title, index: editingItemIndex, description: nil, toDoeeItems: [])
+        guard let title = titleTextField.text, title != "" else  {return}
+        let newItem =  Category.init(title: title, iconName: iconName, index: editingItemIndex, description: nil, toDoeeItems: [])
         delegate?.addNewToDoee(self, newItem: newItem)
         navigationController?.popViewController(animated: true)
     }
     
     func saveChangestoTheItem() {
-        guard let title = titleTextField.text,
+        guard let title = titleTextField.text, title != "",
             var editingItem = editingItem,
             let editingItemIndex = editingItemIndex else {return}
         editingItem.title = title
         editingItem.index = editingItemIndex
+        editingItem.iconName = iconName
         delegate?.addNewToDoee(self, editedItem: editingItem)
         navigationController?.popViewController(animated: true)
     }
     
     @IBAction func cancelBarButtonPressed(_ sender: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)
+    }
+}
+
+extension DetailedCategoryViewController: IconPickerViewControllerDelegate {
+    func changecategoryItem(_: IconPickerViewController, iconName: String) {
+        self.iconName = iconName
+        self.iconImageView.image = UIImage(named: iconName)
     }
 }
