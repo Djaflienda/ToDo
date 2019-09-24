@@ -11,6 +11,7 @@ import Foundation
 class DataModel {
     
     var listOfCategories: [Category] = []
+    
     var indexOfSelectedToDoeeList: Int {
         get {
             return UserDefaults.standard.integer(forKey: "ToDoeeListViewController")
@@ -48,7 +49,8 @@ class DataModel {
     func handleFirstRun() {
         let firstRun = UserDefaults.standard.bool(forKey: "isFirstRun")
         if firstRun {
-            let newCategory = Category.init(title: "New Category", iconName: "default", index: nil, description: nil, toDoeeItems: [])
+            let todoee = ToDoee.init(title: "New Item", description: nil, checked: false, index: nil) //delete it later
+            let newCategory = Category.init(title: "New Category", iconName: "default", index: nil, description: nil, toDoeeItems: [todoee])
             listOfCategories.append(newCategory)
             indexOfSelectedToDoeeList = 0
             UserDefaults.standard.set(false, forKey: "isFirstRun")
